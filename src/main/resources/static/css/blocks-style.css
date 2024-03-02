@@ -1,0 +1,18 @@
+.image-container {
+  overflow: hidden; /* Чтобы контейнер подстраивался под изображение и текст */
+}
+
+.image-container img {
+  float: left; /* Размещаем изображение слева */
+  margin-right: 10px; /* Отступ между изображением и текстом (по вашему выбору) */
+}
+
+.image-container p {
+  text-align: justify;
+}
+.faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            padding-left: 20px; /* Добавленный отступ слева */
+}
