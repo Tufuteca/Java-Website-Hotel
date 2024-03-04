@@ -12,18 +12,6 @@
 
 </head>
 <body>
-<style>
-    .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-in-out;
-            padding-left: 20px; /* Добавленный отступ слева */
-}
-.faq-question{
-    padding-left:20px;
-}
-
-</style>
 <div th:replace="~{blocks/header :: header}"></div>
 <div id="mySlider" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -41,7 +29,7 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-<main class="container" style="width:60%">
+<main>
     <div class="image-container container-fluid mb-5 mt-5">
     <img class="img-fluid me-5" src="/photos/information/hall.png">
         <h1 class="head-text mb-3">Great Retreat Golden Gate</h1>

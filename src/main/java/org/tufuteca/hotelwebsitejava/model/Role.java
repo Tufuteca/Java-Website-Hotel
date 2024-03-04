@@ -1,20 +1,20 @@
 package org.tufuteca.hotelwebsitejava.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.Data;
 
-@Getter
-@Setter
+
+import java.util.Set;
+
 @Entity
+@Data
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String userRole;
 
+    @OneToMany(mappedBy = "role") // Обратное отношение к полю "role" в классе User
+    private Set<User> users;
 }

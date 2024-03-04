@@ -30,10 +30,6 @@ public class IndexController {
             return "error";
         }
     }
-    @GetMapping("/error")
-    public String getErrorPage(Model model){
-        return "error";
-    }
     private List<String> loadPhotos() throws IOException {
         Resource resource = new ClassPathResource(PHOTO_DIR);
         Path photoPath = Paths.get(resource.getURI());

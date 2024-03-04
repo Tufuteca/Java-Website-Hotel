@@ -25,12 +25,12 @@
             <div class="tab-pane fade show active" id="loginForm">
                 <h2>Авторизация</h2>
                 <div th:if="${param.error}">
-                    Invalid username and password.
+                    Неверный логин или пароль
                 </div>
                 <div th:if="${param.logout}">
                     You have been logged out.
                 </div>
-                <form>
+                <form th:action="@{/login}" method="post">
                     <div class="mb-3">
                         <label for="loginUsername" class="form-label">Имя пользователя</label>
                         <input type="text" class="form-control" id="loginUsername" name="loginUsername" required>
@@ -39,14 +39,14 @@
                         <label for="loginPassword" class="form-label">Пароль</label>
                         <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <input type="submit" class="btn btn-primary" value="Войти" />
                 </form>
             </div>
 
             <!-- Форма Регистрации -->
             <div class="tab-pane fade" id="registerForm">
                 <h2>Регистрация</h2>
-                <form>
+                <form th:action="@{/registration}" method="post">
                     <div class="mb-3">
                         <label for="registerSurname" class="form-label">Фамилия</label>
                         <input type="text" class="form-control" id="registerSurname" name="registerSurname" required>
@@ -71,6 +71,11 @@
                         <label for="registerEmail" class="form-label">Email</label>
                         <input type="email" class="form-control" id="registerEmail" name="registerEmail" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="phone" class="col-form-label col-md-2">Телефон</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required oninput="formatPhoneNumber(this)" maxlength="16" pattern="\+7\(\d{3}\)\d{3}-\d{2}-\d{2}" placeholder="+7(XXX)XXX-XX-XX" required>
+                            <small id="phoneHelp" class="form-text text-danger"></small>
+                    </div>
                     <button type="submit" class="btn btn-success">Зарегистрироваться</button>
                 </form>
             </div>
@@ -90,7 +95,33 @@
 
 <!-- Подключение Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script>
+    function formatPhoneNumber(input) {
+        // Очистить предыдущие сообщения об ошибке
+        document.getElementById('phoneHelp').textContent = '';
 
+        // Получить введенное значение
+        var inputValue = input.value;
+
+        // Удалить все символы, кроме цифр
+        var cleanedValue = inputValue.replace(/\D/g, '');
+
+        // Форматировать телефонный номер
+        var formattedValue = cleanedValue.replace(/(\d{1})?(\d{3})?(\d{3})?(\d{2})?(\d{2})?/, function(match, p1, p2, p3, p4, p5) {
+            return (p1 ? '+' + p1 : '') + (p2 ? '(' + p2 + ')' : '') + (p3 ? p3 : '') + (p4 ? '-' + p4 : '') + (p5 ? '-' + p5 : '');
+        });
+
+        // Установить отформатированное значение обратно в поле ввода
+        input.value = formattedValue;
+
+        // Валидировать, если достигнута максимальная длина
+        if (formattedValue.length === 16) {
+            input.setCustomValidity('');
+        } else {
+            input.setCustomValidity('Пожалуйста, введите полный телефонный номер');
+        }
+    }
+</script>
 
 
 </body>
