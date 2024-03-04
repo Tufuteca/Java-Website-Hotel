@@ -2,12 +2,12 @@ package org.tufuteca.hotelwebsitejava.controller;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 
 @Controller
-public class IndexController {
+public class ApplicationController {
     private static final String PHOTO_DIR = "static/photos/slider/";
 
     @GetMapping("/")
@@ -37,5 +37,14 @@ public class IndexController {
         return Arrays.stream(photoPath.toFile().list())
                 .filter(file -> file.toLowerCase().endsWith(".jpg") || file.toLowerCase().endsWith(".png"))
                 .collect(Collectors.toList());
+    }
+    @GetMapping("/user-profile")
+    @PreAuthorize("hasAuthority('permission:read')")
+    public String getProfilePage(Model model) {
+        return "/user-profile";
+    }
+    @GetMapping("/login")
+    public String getLoginPage(Model model){
+        return "/login";
     }
 }

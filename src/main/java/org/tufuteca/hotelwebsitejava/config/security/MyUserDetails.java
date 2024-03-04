@@ -1,8 +1,9 @@
-package org.tufuteca.hotelwebsitejava.config.security.config;
+package org.tufuteca.hotelwebsitejava.config.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.tufuteca.hotelwebsitejava.model.User;
 import org.tufuteca.hotelwebsitejava.model.Role;
 
@@ -12,12 +13,16 @@ import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
 
-    private User user;
     private Role role;
 
-    public MyUserDetails(User user){
+    private User user;
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public MyUserDetails(User user, BCryptPasswordEncoder passwordEncoder) {
         this.user = user;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
