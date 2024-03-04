@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="/css/text-style.css" rel="stylesheet">
     <link href="/css/blocks-style.css" rel="stylesheet">
+    <link href="/css/all-page-style.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
           crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -125,32 +126,7 @@
     </div>
 </main>
 
-<footer class="bg-dark text-light text-center py-4 mt-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h5 class="mb-3">О нас</h5>
-                <p class="font-weight-light">Great Retreat Golden Gate Hotel - ваш идеальный выбор для комфортного проживания в самом сердце города.</p>
-            </div>
-            <div class="col-md-4">
-                <h5 class="mb-3">Свяжитесь с нами</h5>
-                <p class="font-weight-light">WorkTufuteca@yandex.ru</p>
-                <p class="font-weight-light">+7(999)999-99-99</p>
-            </div>
-            <div class="col-md-4">
-                <h5 class="mb-3">Мы в соцсетях</h5>
-                <div class="social-icons">
-                    <a href="#" class="text-light me-3"><i class="fab fa-vk fa-2x"></i></a>
-                    <a href="#" class="text-light"><i class="fab fa-telegram fa-2x"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="mt-3">
-        <p>&copy; 2024 Great Retreat Golden Gate Hotel. Все права защищены.</p>
-    </div>
-</footer>
-
+<div th:replace="~{blocks/footer :: footer}"></div>
 <!-- Подключение jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
