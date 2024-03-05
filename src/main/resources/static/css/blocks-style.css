@@ -1,0 +1,49 @@
+.image-container {
+  overflow: hidden; /* Чтобы контейнер подстраивался под изображение и текст */
+}
+
+.image-container img {
+  float: left; /* Размещаем изображение слева */
+  margin-right: 10px; /* Отступ между изображением и текстом (по вашему выбору) */
+}
+
+.image-container p {
+  text-align: justify;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  padding-left: 20px; /* Добавленный отступ слева */
+}
+
+.faq-question {
+  padding-left: 20px;
+}
+
+.carousel-inner img {
+  max-width: 100%; /* Соблюдение пропорций */
+  height: auto; /* Автоматическая высота */
+}
+
+@media (max-width: 767px) {
+  /* Установка максимальной высоты для изображений в мобильной версии */
+  .carousel-inner img {
+    max-height: 300px; /* Примерное значение, которое вы можете настроить по вашему усмотрению */
+  }
+  .image-container p{
+    text-align: center;
+  }
+  .head-text{
+    text-align: center;
+  }
+  .img-fluid{
+    float:center;
+    display:none;
+  }
+}
+main{
+    max-width:60%;
+    margin:auto;
+}
