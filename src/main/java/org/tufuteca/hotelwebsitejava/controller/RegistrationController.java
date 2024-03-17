@@ -14,6 +14,9 @@ import org.tufuteca.hotelwebsitejava.repository.RoleRepository;
 import org.tufuteca.hotelwebsitejava.repository.UserRepository;
 import org.tufuteca.hotelwebsitejava.service.UserService;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Controller
 public class RegistrationController {
 
@@ -43,7 +46,7 @@ public class RegistrationController {
                                @RequestParam("registerPatronymic") String patronymic,
                                Model model) {
         // Логика регистрации пользователя
-        Role defaultRole = roleRepository.findByUserRole("USER"); // Предположим, что у вас есть роль "USER" по умолчанию
+        Role defaultRole = roleRepository.findByUserRole("ROLE_USER");
         var newUser = new User();
         newUser.setRole(defaultRole);
         newUser.setName(name);
@@ -60,9 +63,17 @@ public class RegistrationController {
         } catch (DataIntegrityViolationException e) {
             // Обработка ошибки дублирования записи
             String errorMessage = determineErrorMessage(e);
-            model.addAttribute("error", errorMessage);
-            return "/login";
+            if (errorMessage.contains("email")) {
+                return "redirect:/registration?errorMail=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            } else if (errorMessage.contains("username")) {
+                return "redirect:/registration?errorUsername=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            } else if (errorMessage.contains("phone")) {
+                return "redirect:/registration?errorPhone=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            } else {
+                return "redirect:/registration?error=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            }
         }
+
     }
 
     private String determineErrorMessage(DataIntegrityViolationException e) {
@@ -70,8 +81,10 @@ public class RegistrationController {
 
         if (e.getMessage().contains("UK_6dotkott2kjsp8vw4d0m25fb7")) {
             errorMessage = "Пользователь с таким email уже зарегистрирован.";
-        } else if (e.getMessage().contains("UK_2aels1eehgg2k96e0mcw12c2m")) {
-            errorMessage = "Пользователь с таким логином уже зарегистрирован.";
+        } else if (e.getMessage().contains("UK_r43af9ap4edm43mmtq01oddj6")) {
+            errorMessage = "Пользователь с таким username уже зарегистрирован.";
+        } else if (e.getMessage().contains("UK_70jmct5ej765l57mlcrdhxn1c")) {
+            errorMessage = "Пользователь с таким phone уже зарегистрирован.";
         }
 
         return errorMessage;

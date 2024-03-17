@@ -2,11 +2,15 @@
   overflow: hidden; /* Чтобы контейнер подстраивался под изображение и текст */
 }
 
-.image-container img {
+.image-container-first img {
   float: left; /* Размещаем изображение слева */
-  margin-right: 10px; /* Отступ между изображением и текстом (по вашему выбору) */
+  padding-right: 10px; /* Отступ между изображением и текстом (по вашему выбору) */
 }
-
+.image-container-second img {
+  float: right; /* Размещаем изображение слева */
+  margin-left: 10px; /* Отступ между изображением и текстом (по вашему выбору) */
+  margin-right:0px;
+}
 .image-container p {
   text-align: justify;
 }
@@ -23,27 +27,53 @@
 }
 
 .carousel-inner img {
-  max-width: 100%; /* Соблюдение пропорций */
-  height: auto; /* Автоматическая высота */
+    max-height: 960px;
+    min-width: 100%
 }
-
-@media (max-width: 767px) {
-  /* Установка максимальной высоты для изображений в мобильной версии */
-  .carousel-inner img {
-    max-height: 300px; /* Примерное значение, которое вы можете настроить по вашему усмотрению */
-  }
-  .image-container p{
-    text-align: center;
-  }
-  .head-text{
-    text-align: center;
-  }
-  .img-fluid{
-    float:center;
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.float-right{
+        float:left;
+    }
+@media screen and (max-width: 992px){
+    .carousel-inner img{
+        max-height: 400px;
+        min-width: 100%
+    }
+    .shower{
     display:none;
-  }
+    }
+    .hidden{
+        display: block;
+    }
+    .image-container-first img{
+        float:none;
+    }
+    .image-container-second img{
+        float:none;
+    }
+    .img-fluid {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 5%;
+        }
+    .float-right{
+        float:right;
+    }
 }
-main{
-    max-width:60%;
-    margin:auto;
+@media screen and (min-width: 992px){
+    main{
+        max-width:60%;
+        margin:auto;
+    }
+    .shower{
+        display:block;
+        }
+    .hidden{
+            display: none;
+    }
 }

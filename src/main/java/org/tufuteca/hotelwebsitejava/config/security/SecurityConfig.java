@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +27,6 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -36,15 +34,18 @@ public class SecurityConfig {
                 .authorizeRequests(authorize ->
                         authorize
                                 .requestMatchers("/**").permitAll()
-                                .requestMatchers("/user-profile", "/admin-panel").hasRole("Администратор")
+                                .requestMatchers("/user-profile").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(loginConfigurer ->
                         loginConfigurer
                         .loginPage("/login")
-                                .defaultSuccessUrl("/success")
+                                .defaultSuccessUrl("/user-profile")
                                 .permitAll()
                 )
+                .logout(log ->log
+                        .permitAll()
+                        .logoutSuccessUrl("/"))
                 .authenticationProvider(authenticationProvider());
 
         return http.build();

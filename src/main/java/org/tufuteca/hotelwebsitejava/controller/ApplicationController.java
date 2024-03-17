@@ -39,7 +39,7 @@ public class ApplicationController {
                 .collect(Collectors.toList());
     }
     @GetMapping("/user-profile")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("isAuthenticated()")
     public String getProfilePage(Model model) {
         return "/user-profile";
     }

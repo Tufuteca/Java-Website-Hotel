@@ -9,6 +9,7 @@ import org.tufuteca.hotelwebsitejava.model.Role;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
@@ -26,10 +27,9 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(role.getUserRole().split(", "))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getUserRole()));
     }
+
 
     @Override
     public String getPassword() {
