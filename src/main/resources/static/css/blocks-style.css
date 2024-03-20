@@ -9,7 +9,7 @@
 .image-container-second img {
   float: right; /* Размещаем изображение слева */
   margin-left: 10px; /* Отступ между изображением и текстом (по вашему выбору) */
-  margin-right:0px;
+  margin-right: 0px;
 }
 .image-container p {
   text-align: justify;

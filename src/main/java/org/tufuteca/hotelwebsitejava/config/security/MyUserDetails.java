@@ -7,10 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.tufuteca.hotelwebsitejava.model.User;
 import org.tufuteca.hotelwebsitejava.model.Role;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
 
@@ -27,7 +25,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getUserRole()));
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getTitle()));
     }
 
 

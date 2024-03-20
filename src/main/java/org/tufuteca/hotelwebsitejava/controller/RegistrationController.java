@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.tufuteca.hotelwebsitejava.model.Role;
 import org.tufuteca.hotelwebsitejava.model.User;
 import org.tufuteca.hotelwebsitejava.repository.RoleRepository;
-import org.tufuteca.hotelwebsitejava.repository.UserRepository;
 import org.tufuteca.hotelwebsitejava.service.UserService;
 
 import java.net.URLEncoder;
@@ -20,21 +17,15 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class RegistrationController {
 
-    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(UserRepository userRepository, RoleRepository roleRepository, UserService userService, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public RegistrationController(RoleRepository roleRepository, UserService userService, BCryptPasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-    }
-    @GetMapping("/registration")
-    public String getregistrationPage(Model model){
-        return "/registration";
     }
     @PostMapping("/register")
     public String registerUser(@RequestParam("registerUsername") String username,
@@ -43,10 +34,9 @@ public class RegistrationController {
                                @RequestParam("registerPhone") String phoneNumber,
                                @RequestParam("registerSurname") String surname,
                                @RequestParam("registerName") String name,
-                               @RequestParam("registerPatronymic") String patronymic,
-                               Model model) {
+                               @RequestParam("registerPatronymic") String patronymic) {
         // Логика регистрации пользователя
-        Role defaultRole = roleRepository.findByUserRole("ROLE_USER");
+        Role defaultRole = roleRepository.findByTitle("ROLE_USER");
         var newUser = new User();
         newUser.setRole(defaultRole);
         newUser.setName(name);
@@ -89,5 +79,6 @@ public class RegistrationController {
 
         return errorMessage;
     }
+
 
 }
