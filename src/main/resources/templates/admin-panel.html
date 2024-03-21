@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<meta http-equiv="content-language" content="ru">
+<head>
+    <title>Главная страница</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/all-page-style.css" rel="stylesheet">
+    <link href="/css/blocks-style.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{blocks/headerForPages :: headerForPages}"></div>
+<h1 class="text-center">Панель Администратора</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Вкладки слева -->
+            <ul class="nav flex-column nav-pills" id="myTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="tab1-tab" data-bs-toggle="pill" href="#tab1">Профиль</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab2-tab" data-bs-toggle="pill" href="#tab2">Брони</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab3-tab" data-bs-toggle="pill" href="#tab3">Номера</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <!-- Основной контент -->
+            <main class="container mt-5">
+                <div class="tab-content mt-2">
+                    <div class="tab-pane fade show active" id="tab1">
+                        <h1 class="text-center">Пользователи</h1>
+
+                        <div class="faq-item mt-2" style="background-color:#f0f4f7; border-radius:16px;" th:each="user : ${users}">
+                            <h3 class="faq-question" th:text="${user.name} + ' ' + ${user.surname} + ' ' + ${user.patronymic} + ' - ' + (${user.role.title == 'ROLE_USER'} ? 'Пользователь' : 'Администратор')"></h3>
+                            <div class="faq-answer">
+                                <strong>Телефон:</strong> <span th:text="${user.phonenumber}"></span><br>
+                                <strong>Почта:</strong> <span th:text="${user.email}"></span><BR><br>
+                                <a th:href="@{/edit-profile(id=${user.id})}" class="btn btn-primary mb-3">Редактировать</a>
+                                <a href="#" class="btn btn-warning mb-3" onclick="deleteUser('${user.id}')">Удалить</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="tab2">
+                        <h4>Content for Tab 2</h4>
+                        <p>This is the content for Tab 2.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<footer>
+</footer>
+
+<!-- Подключение jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<!-- Подключение Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+
+<!-- Подключение Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var faqQuestions = document.querySelectorAll(".faq-question");
+
+        faqQuestions.forEach(function (question) {
+            question.addEventListener("click", function () {
+                var answer = this.nextElementSibling;
+                if (answer.style.maxHeight) {
+                    answer.style.maxHeight = null;
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    function deleteUser(userId) {
+        if (confirm('Вы уверены, что хотите удалить профиль пользователя?')) {
+            $.ajax({
+                url: '/delete-profile',
+                type: 'POST',
+                data: { id: userId },
+                success: function(response) {
+                    // Обработка успешного удаления профиля (например, перенаправление или обновление страницы)
+                    window.location.href = '/admin-panel';
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибок
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

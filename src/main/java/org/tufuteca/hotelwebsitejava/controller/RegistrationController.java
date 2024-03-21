@@ -4,34 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.tufuteca.hotelwebsitejava.model.Role;
 import org.tufuteca.hotelwebsitejava.model.User;
 import org.tufuteca.hotelwebsitejava.repository.RoleRepository;
-import org.tufuteca.hotelwebsitejava.repository.UserRepository;
 import org.tufuteca.hotelwebsitejava.service.UserService;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 public class RegistrationController {
 
-    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationController(UserRepository userRepository, RoleRepository roleRepository, UserService userService, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public RegistrationController(RoleRepository roleRepository, UserService userService, BCryptPasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-    }
-    @GetMapping("/registration")
-    public String getregistrationPage(Model model){
-        return "/registration";
     }
     @PostMapping("/register")
     public String registerUser(@RequestParam("registerUsername") String username,
@@ -40,10 +34,9 @@ public class RegistrationController {
                                @RequestParam("registerPhone") String phoneNumber,
                                @RequestParam("registerSurname") String surname,
                                @RequestParam("registerName") String name,
-                               @RequestParam("registerPatronymic") String patronymic,
-                               Model model) {
+                               @RequestParam("registerPatronymic") String patronymic) {
         // Логика регистрации пользователя
-        Role defaultRole = roleRepository.findByUserRole("USER"); // Предположим, что у вас есть роль "USER" по умолчанию
+        Role defaultRole = roleRepository.findByTitle("ROLE_USER");
         var newUser = new User();
         newUser.setRole(defaultRole);
         newUser.setName(name);
@@ -60,9 +53,17 @@ public class RegistrationController {
         } catch (DataIntegrityViolationException e) {
             // Обработка ошибки дублирования записи
             String errorMessage = determineErrorMessage(e);
-            model.addAttribute("error", errorMessage);
-            return "/login";
+            if (errorMessage.contains("email")) {
+                return "redirect:/registration?errorMail=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            } else if (errorMessage.contains("username")) {
+                return "redirect:/registration?errorUsername=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            } else if (errorMessage.contains("phone")) {
+                return "redirect:/registration?errorPhone=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            } else {
+                return "redirect:/registration?error=" + URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
+            }
         }
+
     }
 
     private String determineErrorMessage(DataIntegrityViolationException e) {
@@ -70,11 +71,14 @@ public class RegistrationController {
 
         if (e.getMessage().contains("UK_6dotkott2kjsp8vw4d0m25fb7")) {
             errorMessage = "Пользователь с таким email уже зарегистрирован.";
-        } else if (e.getMessage().contains("UK_2aels1eehgg2k96e0mcw12c2m")) {
-            errorMessage = "Пользователь с таким логином уже зарегистрирован.";
+        } else if (e.getMessage().contains("UK_r43af9ap4edm43mmtq01oddj6")) {
+            errorMessage = "Пользователь с таким username уже зарегистрирован.";
+        } else if (e.getMessage().contains("UK_70jmct5ej765l57mlcrdhxn1c")) {
+            errorMessage = "Пользователь с таким phone уже зарегистрирован.";
         }
 
         return errorMessage;
     }
+
 
 }

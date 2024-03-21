@@ -13,8 +13,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userRole;
+    private String title;
 
-    @OneToMany(mappedBy = "role") // Обратное отношение к полю "role" в классе User
-    private Set<User> users;
 }

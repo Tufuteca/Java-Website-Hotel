@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<meta http-equiv="content-language" content="ru">
 <head>
     <title>Главная страница</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="/css/text-style.css" rel="stylesheet">
     <link href="/css/blocks-style.css" rel="stylesheet">
@@ -18,7 +20,7 @@
     <div class="carousel-inner">
         <!-- Используем Thymeleaf для динамического добавления изображений -->
         <div th:each="photoName, status : ${photoNames}" th:classappend="${status.index == 0} ? 'carousel-item active' : 'carousel-item'">
-            <img th:src="@{'/photos/slider/' + ${photoName}}" class="d-block" style="max-height: 960px; min-width: 100%" th:alt="'Фото ' + ${status.index + 1}">
+            <img th:src="@{'/photos/slider/' + ${photoName}}" class="d-block" th:alt="'Фото ' + ${status.index + 1}">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#mySlider" data-bs-slide="prev">
@@ -31,35 +33,44 @@
     </button>
 </div>
 <main>
-    <div class="image-container container-fluid mb-5 mt-5">
-    <img class="img-fluid me-5" src="/photos/information/hall.png">
-        <h1 class="head-text mb-3">Great Retreat Golden Gate</h1>
-        <p class="text-sm-left h5 font-normal">
-            Great Retreat Golden Gate Hotel - это идеальное сочетание роскоши и практичности в самом сердце города. Наши стильные номера обеспечивают уют и комфорт, поддерживаемые современными удобствами, что делает их привлекательным выбором как для деловых путешественников, так и для отдыхающих.
-            <br>Отличительные особенности включают в себя высококлассные конференц-залы, идеально подходящие для успешных бизнес-мероприятий, а также изысканный ресторан, где можно насладиться изысканными блюдами. В Great Retreat Golden Gate Hotel мы стремимся создать уникальный опыт для каждого гостя, предлагая исключительный сервис и неповторимую атмосферу в центре городской роскоши.
-        </p>
-        <a><button class="btn btn-primary mt-2" style="float:right;">Подробнее...</button></a>
+    <div class="image-container-first container-fluid mb-5 mt-5">
+        <h1 class="head-text mb-3 hidden text-center">Great Retreat Golden Gate</h1>
+        <img class="img-fluid mx-auto d-block" src="/photos/information/hall.png" alt="">
+        <div class="margin-text" style="padding:10px;background-color:#f0f4f7; border-radius:16px;">
+        <h1 class="head-text mb-3 shower">Great Retreat Golden Gate</h1>
+            <p class="text-sm-left h5 font-normal" style="padding-left: 20px;">
+                Great Retreat Golden Gate Hotel - это идеальное сочетание роскоши и практичности в самом сердце города. Наши стильные номера обеспечивают уют и комфорт, поддерживаемые современными удобствами, что делает их привлекательным выбором как для деловых путешественников, так и для отдыхающих.
+                <br>Отличительные особенности включают в себя высококлассные конференц-залы, идеально подходящие для успешных бизнес-мероприятий, а также изысканный ресторан, где можно насладиться изысканными блюдами.
+            </p>
+            <a><button class="btn btn-primary mt-4" style="float:right;">Подробнее...</button></a>
+        </div>
     </div>
-    <div class="image-container container-fluid mb-5">
-        <img class="img-fluid ms-5" style="float:right;" src="/photos/information/room.jpg">
-        <h1 class="head-text mb-3">Проживание</h1>
-        <p class="text-sm-left h5 font-normal">
-            В Golden Gate Retreat Hotel у вас есть возможность выбрать номер, который соответствует вашим ожиданиям и предпочтениям.
-        </p>
-        <p class="text-sm-left h5 font-normal">
-            Мы предлагаем широкий выбор различных категорий номеров, от уютных одноместных номеров до роскошных люксов с панорамными видами.
-        </p>
-        <p class="text-sm-left h5 font-normal">
-            Все наши номера оформлены в классическом стиле с элементами современного дизайна и оборудованы всем необходимым для вашего комфорта.
-        </p>
-        <a><button class="btn btn-primary mt-2" style="float:left;">Подробнее...</button></a>
+    <div class="clearfix mb-5"></div>
+    <div class="image-container-second container-fluid mb-5">
+        <h1 class="head-text mb-3 hidden text-center">Проживание</h1>
+        <img class="img-fluid mx-auto d-block" style="padding-left:5px;" src="/photos/information/room.jpg" alt="">
+        <div style="background-color:#f0f4f7; padding:10px; border-radius:16px;">
+            <h1 class="head-text mb-3 shower">Проживание</h1>
+            <p class="text-lg-left h5 font-normal">
+                В Golden Gate Retreat Hotel у вас есть возможность выбрать номер, который соответствует вашим ожиданиям и предпочтениям.
+            </p>
+            <p class="text-lg-left h5 font-normal">
+                Мы предлагаем широкий выбор различных категорий номеров, от уютных одноместных номеров до роскошных люксов с панорамными видами.
+            </p>
+            <p class="text-lg-left h5 font-normal">
+                Все наши номера оформлены в классическом стиле с элементами современного дизайна и оборудованы всем необходимым для вашего комфорта.
+            </p>
+            <a><button class="btn btn-primary mt-4 float-right">Подробнее...</button></a>
+        </div>
     </div>
+
+    <div class="clearfix mb-2"></div>
     <div>
         <h1 class="head-text mb-2 mt-3 ms-2">Контакты</h1>
         <div style="margin-right:10px;margin-left:10px;">
             <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aff6b7f11e51a1806d0404d50f4e55947d17c830c3e48bcf20827fb4a06825154&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
         </div>
-        <div class="about-us-info mt-3" style="background-color:#ADD8E6; border-radius:16px;">
+        <div class="about-us-info mt-3" style="background-color:#f0f4f7; border-radius:16px;">
             <img src="/svg/map.svg" class="mb-2 ms-2 mt-2 me-2" alt="Адрес:"><b>Кемеровская область,Прокопьевск, улица Шишкина, 26</b>
             <br>
             <img src="/svg/mail.svg" class="mb-2 ms-2 mt-2 me-2" alt="Почта:"><b>WorkTufuteca@yandex.ru</b>
@@ -69,7 +80,7 @@
     </div>
     <div class="faq">
         <h1 class="head-text mb-2 mt-4 ms-2">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h1>
-        <div class="faq-item mt-2" style="background-color:#ADD8E6; border-radius:16px;">
+        <div class="faq-item mt-2" style="background-color:#f0f4f7; border-radius:16px;">
             <h3 class="faq-question">Условия проживания</h3>
             <div class="faq-answer">
                 <p style="color:black;"><b>Ответ:</b> При регистрации заезда необходимо предъявить удостоверение личности с фотографией (только внутренний паспорт) и кредитную карту.<br>
@@ -85,7 +96,7 @@
                     <i>В случае непредоставления документов, Отель имеет право отказать в предоставлении услуги проживания.</i></p>
             </div>
         </div>
-        <div class="faq-item mt-2" style="background-color:#ADD8E6; border-radius:16px;">
+        <div class="faq-item mt-2" style="background-color:#f0f4f7; border-radius:16px;">
             <h3 class="faq-question">Посещение SPA-центра и бассейна</h3>
             <div class="faq-answer">
                 <p style="color:black;"><b>Ответ:</b>  Посещение тренажерного зала и бассейна доступно для всех проживающих отеля.<br>
@@ -94,13 +105,13 @@
                         Дополнительные услуги СПА не входят в стоимость проживания.</i> </p>
             </div>
         </div>
-        <div class="faq-item mt-2" style="background-color:#ADD8E6; border-radius:16px;">
+        <div class="faq-item mt-2" style="background-color:#f0f4f7; border-radius:16px;">
             <h3 class="faq-question">Проживание с животными</h3>
             <div class="faq-answer">
                 <p style="color:black;"><b>Ответ:</b>Возможно размещение с собаками до 5 кг. Взимается дополнительная оплата в размере 10 000 рублей за генеральную уборку номера.</p>
             </div>
         </div>
-        <div class="faq-item mt-2" style="background-color:#ADD8E6; border-radius:16px;">
+        <div class="faq-item mt-2" style="background-color:#f0f4f7; border-radius:16px;">
             <h3 class="faq-question">Парковка</h3>
             <div class="faq-answer">
                 <p style="color:black;"><b>Ответ:</b> Мы предлагаем своим гостям воспользоваться круглосуточной охраняемой подземной парковкой на 90 парковочных мест. Обращаем Ваше внимание на то, что данная услуга предоставляется за дополнительную плату. <br>
@@ -117,7 +128,7 @@
                     <br>
                     <b>Обнуленный парковочный талон действует 15 минут</b>        </div>
         </div>
-        <div class="faq-item mt-2" style="background-color:#ADD8E6; border-radius:16px;">
+        <div class="faq-item mt-2" style="background-color:#f0f4f7; border-radius:16px;">
             <h3 class="faq-question">Отмена бронирования</h3>
             <div class="faq-answer">
                 <p style="color:black;"><b>Ответ:</b>Правила отмены бронирования и предоплаты зависят от типа выбранного варианта.</p>
@@ -135,6 +146,7 @@
 
 <!-- Подключение Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var faqQuestions = document.querySelectorAll(".faq-question");
