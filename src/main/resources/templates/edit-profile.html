@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="content-language" content="ru">
 <head>
-    <title>Главная страница</title>
+    <title th:text="'Редактирование пользователя: ' + ${user.name} + ' ' + ${user.surname} + ' ' + ${user.patronymic}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -16,48 +16,53 @@
     <form th:action="@{/edit-profile-confirm}" method="post">
         <!-- Фамилия -->
         <div class="mb-3">
-            <label for="registerSurname" class="form-label">Фамилия</label>
-            <input type="text" class="form-control" id="registerSurname" name="registerSurname" required th:value="${user.surname}">
+            <label for="surname" class="form-label">Фамилия</label>
+            <input type="text" class="form-control" id="surname" name="surname" required th:value="${user.surname}">
         </div>
         <!-- Имя -->
         <div class="mb-3">
-            <label for="registerName" class="form-label">Имя</label>
-            <input type="text" class="form-control" id="registerName" name="registerName" required th:value="${user.name}">
+            <label for="name" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="name" name="name" required th:value="${user.name}">
         </div>
         <!-- Отчество -->
         <div class="mb-3">
-            <label for="registerPatronymic" class="form-label">Отчество</label>
-            <input type="text" class="form-control" id="registerPatronymic" name="registerPatronymic" th:value="${user.patronymic}">
+            <label for="patronymic" class="form-label">Отчество</label>
+            <input type="text" class="form-control" id="patronymic" name="patronymic" th:value="${user.patronymic}">
         </div>
         <!-- Имя пользователя -->
         <div class="mb-3">
-            <label for="registerUsername" class="form-label">Имя пользователя</label>
-            <input type="text" class="form-control" id="registerUsername" name="registerUsername" required th:value="${user.username}">
+            <label for="username" class="form-label">Имя пользователя</label>
+            <input type="text" class="form-control" id="username" name="username" required th:value="${user.username}">
         </div>
         <!-- Пароль -->
         <div class="mb-3">
-            <label for="registerPassword" class="form-label">Пароль</label>
-            <input type="password" class="form-control" id="registerPassword" name="registerPassword" required>
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <!-- Email -->
         <div class="mb-3">
-            <label for="registerEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="registerEmail" name="registerEmail" required th:value="${user.email}">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required th:value="${user.email}">
         </div>
         <!-- Телефон -->
         <div class="mb-3">
-            <label for="registerPhone" class="col-form-label col-md-2">Телефон</label>
-            <input type="tel" class="form-control" id="registerPhone" name="registerPhone" oninput="formatPhoneNumber(this)" maxlength="16" pattern="\+7\(\d{3}\)\d{3}-\d{2}-\d{2}" placeholder="+7(XXX)XXX-XX-XX" required th:value="${user.phonenumber}">
+            <label for="phonenumber" class="col-form-label col-md-2">Телефон</label>
+            <input type="tel" class="form-control" id="phonenumber" name="phonenumber" oninput="formatPhoneNumber(this)" maxlength="16" pattern="\+7\(\d{3}\)\d{3}-\d{2}-\d{2}" placeholder="+7(XXX)XXX-XX-XX" required th:value="${user.phonenumber}">
             <small id="phoneHelp" class="form-text text-danger"></small>
         </div>
+        <div class="mb-3">
+            <label for="Role" class="form-label">Роль</label>
+            <select class="form-select" id="Role" name="Role" required>
+                <option th:each="role : ${role}" th:value="${role.id}" th:text="${role.title == 'ROLE_USER' ? 'Клиент' : (role.title == 'ROLE_ADMIN' ? 'Администратор' : role.title)}" th:selected="${role.id == user.role.id}"></option>
+            </select>
+        </div>
+        <input type="hidden" name="id" th:value="${user.id}">
         <!-- Кнопка Редактировать -->
         <button type="submit" class="btn btn-success">Редактировать</button>
     </form>
 </main>
 
-
-<footer>
-</footer>
+<div th:replace="~{blocks/footer :: footer}"></div>
 
 <!-- Подключение jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>

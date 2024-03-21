@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.tufuteca.hotelwebsitejava.service.MyUserDetailsService;
 
 import java.util.Set;
@@ -37,9 +38,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorize ->
                         authorize
-                                .requestMatchers("/**").permitAll()
                                 .requestMatchers("/user-profile").hasRole("USER")
                                 .requestMatchers("/admin-panel").hasRole("ADMIN")
+                                .requestMatchers("/edit-profile/**").hasRole("ADMIN")
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(loginConfigurer ->

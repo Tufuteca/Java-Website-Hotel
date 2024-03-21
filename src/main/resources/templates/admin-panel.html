@@ -40,8 +40,9 @@
                             <div class="faq-answer">
                                 <strong>Телефон:</strong> <span th:text="${user.phonenumber}"></span><br>
                                 <strong>Почта:</strong> <span th:text="${user.email}"></span><BR><br>
-                                <a th:href="@{/edit-profile(id=${user.id})}" class="btn btn-primary mb-3">Редактировать</a>
-                                <a href="#" class="btn btn-warning mb-3" onclick="deleteUser('${user.id}')">Удалить</a>
+                                <a th:href="@{/edit-profile/{id}(id=${user.id})}" class="btn btn-primary mb-3">Редактировать</a>
+
+                                <button class="btn btn-warning mb-3" th:attr="data-user-id=${user.id}, data-user-name=${user.name + ' ' + user.surname}" onclick="confirmDelete(this)">Удалить профиль</button>
                             </div>
                         </div>
 
@@ -57,8 +58,7 @@
     </div>
 </div>
 
-<footer>
-</footer>
+<div th:replace="~{blocks/footer :: footer}"></div>
 
 <!-- Подключение jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -85,23 +85,12 @@
         });
     });
 </script>
-
 <script>
-    function deleteUser(userId) {
-        if (confirm('Вы уверены, что хотите удалить профиль пользователя?')) {
-            $.ajax({
-                url: '/delete-profile',
-                type: 'POST',
-                data: { id: userId },
-                success: function(response) {
-                    // Обработка успешного удаления профиля (например, перенаправление или обновление страницы)
-                    window.location.href = '/admin-panel';
-                },
-                error: function(xhr, status, error) {
-                    // Обработка ошибок
-                    console.error(xhr.responseText);
-                }
-            });
+    function confirmDelete(button) {
+        var userId = button.getAttribute('data-user-id');
+        var userName = button.getAttribute('data-user-name');
+        if (confirm("Вы уверены, что хотите удалить профиль пользователя " + userName + "?")) {
+            window.location.href = '/delete-profile?id=' + userId;
         }
     }
 </script>

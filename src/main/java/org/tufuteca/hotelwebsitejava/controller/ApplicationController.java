@@ -83,13 +83,6 @@ public class ApplicationController {
     }
 
 
-    @GetMapping("/edit-profile/{id}")
-    public String editProfile(@PathVariable Long id, Model model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "edit-profile";
-    }
-
     @GetMapping("/login")
     public String getLoginPage(){
         return "/login";
